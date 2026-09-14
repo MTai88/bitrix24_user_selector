@@ -1,2 +1,51 @@
-this.BX=this.BX||{},function(e,t){"use strict";var i=function(){function e(){babelHelpers.classCallCheck(this,e)}return babelHelpers.createClass(e,null,[{key:"Init",value:function(e,i){var n=document.getElementById(e+"_val");new t.TagSelector({id:e,multiple:!1,items:i?[i]:null,events:{onAfterTagAdd:function(e){var t=e.getData().tag;n.value=t.id},onTagRemove:function(e){n.value=""}},dialogOptions:{context:"selectFilteredUser",entities:[{id:"user",dynamicLoad:!1,dynamicSearch:!1,options:{inviteEmployeeLink:!1}},{id:"user-filtered",dynamicLoad:!0,dynamicSearch:!0}]}}).renderTo(document.getElementById(e))}}]),e}();e.FilteredUserSelector=i}(this.BX.Mtai=this.BX.Mtai||{},BX.UI.EntitySelector);
-//# sourceMappingURL=filtered_user_selector.bundle.js.map
+this.BX = this.BX || {};
+(function (exports, entitySelector) {
+	"use strict";
+
+	var TagSelector = entitySelector.TagSelector;
+
+	function FilteredUserSelector() {}
+
+	FilteredUserSelector.Init = function (fieldUID, selectedUser) {
+		var field = document.getElementById(fieldUID + '_val');
+		var tagSelector = new TagSelector({
+			id: fieldUID,
+			multiple: false,
+			items: selectedUser ? [selectedUser] : null,
+			events: {
+				onAfterTagAdd: function (event) {
+					var tag = event.getData().tag;
+					field.value = tag.id;
+				},
+				onTagRemove: function (event) {
+					field.value = "";
+				}
+			},
+			dialogOptions: {
+				context: 'selectFilteredUser',
+				recentTab: false,
+				entities: [
+					{
+						id: 'user',
+						dynamicLoad: false,
+						dynamicSearch: false,
+						options: {
+							inviteEmployeeLink: false
+						}
+					},
+					{
+						// user-filtered: собственный провайдер (UserFilteredProvider).
+						// dynamicSearch: false — список загружается сразу при открытии
+						// диалога, а не только по результатам поиска
+						id: 'user-filtered',
+						dynamicLoad: true,
+						dynamicSearch: false
+					}
+				]
+			}
+		});
+		tagSelector.renderTo(document.getElementById(fieldUID));
+	};
+
+	exports.FilteredUserSelector = FilteredUserSelector;
+})(this.BX.Mtai = this.BX.Mtai || {}, BX.UI.EntitySelector);

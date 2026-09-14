@@ -19,6 +19,7 @@ export class FilteredUserSelector {
             },
             dialogOptions: {
                 context: 'selectFilteredUser',
+                recentTab: false,
                 entities: [
                     {
                         id: 'user',
@@ -29,9 +30,12 @@ export class FilteredUserSelector {
                         }
                     },
                     {
+                        // user-filtered: собственный провайдер (UserFilteredProvider).
+                        // dynamicSearch: false — список загружается сразу при открытии
+                        // диалога, а не только по результатам поиска
                         id: 'user-filtered',
                         'dynamicLoad': true,
-                        'dynamicSearch': true,
+                        'dynamicSearch': false,
                     },
                 ],
             }
